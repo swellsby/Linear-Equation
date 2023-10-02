@@ -22,13 +22,13 @@
             mSlider = createSlider(-10, 10, 1, 0.1);
             mSlider.position(10, canvasSize + 10);
             mLabel = createP('m: ' + mSlider.value());
-            mLabel.position(10, canvasSize + 30);
+            mLabel.position(mSlider.x + mSlider.width + 10, mSlider.y - 15);
             
             // Create b slider and label
             bSlider = createSlider(-10, 10, 0, 0.1);
-            bSlider.position(10, canvasSize + 60);
+            bSlider.position(mLabel.x + mLabel.width + 40, canvasSize + 10);
             bLabel = createP('b: ' + bSlider.value());
-            bLabel.position(10, canvasSize + 80);
+            bLabel.position(bSlider.x + bSlider.width + 10, bSlider.y - 15);
         }
 
         function draw() {
