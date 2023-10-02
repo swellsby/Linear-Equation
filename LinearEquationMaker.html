@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linear Graph Plotter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.gui.js"></script>
+</head>
+<body>
+    <script>
+        let mSlider, bSlider;
+        let mLabel, bLabel;
+        let canvasSize = 400;
+        let gridSize = 20;
+        let cellSize = canvasSize / gridSize;
+
+        function setup() {
+            createCanvas(canvasSize, canvasSize);
+            
+            // Create m slider and label
+            mSlider = createSlider(-10, 10, 1, 0.1);
+            mSlider.position(10, canvasSize + 10);
+            mLabel = createP('m: ' + mSlider.value());
+            mLabel.position(10, canvasSize + 30);
+            
+            // Create b slider and label
+            bSlider = createSlider(-10, 10, 0, 0.1);
+            bSlider.position(10, canvasSize + 60);
+            bLabel = createP('b: ' + bSlider.value());
+            bLabel.position(10, canvasSize + 80);
+        }
+
+        function draw() {
+            background(220);
+
+            let m = mSlider.value();
+            let b = bSlider.value();
+
+            // Update labels with current slider values
+            mLabel.html('m: ' + m.toFixed(2));
+            bLabel.html('b: ' + b.toFixed(2));
+
+            // Draw grid lines
+            stroke(200); // Lighter color for grid lines
+            for (let x = 0; x <= canvasSize; x += cellSize) {
+                line(x, 0, x, canvasSize);
+                line(0, x, canvasSize, x);
+            }
+
+            // Draw axes with a darker color
+            stroke(0);
+            line(canvasSize / 2, 0, canvasSize / 2, canvasSize); // Y-axis
+            line(0, canvasSize / 2, canvasSize, canvasSize / 2); // X-axis
+
+            // Plot the linear function
+            stroke(255, 0, 0);
+            for (let x = 0; x <= canvasSize; x++) {
+                let y = m * (x / cellSize - gridSize / 2) + b;
+                let py = m * ((x - 1) / cellSize - gridSize / 2) + b;
+                line(x - 1, canvasSize / 2 - py * cellSize, x, canvasSize / 2 - y * cellSize);
+            }
+
+            // Display the equation
+            noStroke();
+            fill(0);
+            textSize(16);
+            text(`y = ${m.toFixed(2)}x + ${b.toFixed(2)}`, 10, canvasSize - 10);
+        }
+    </script>
+</body>
+</html>
